@@ -1,6 +1,8 @@
 package task
 
-import "context"
+import (
+	"context"
+)
 
 // Task 表示一个可执行的任务单元
 type Task interface {
@@ -28,6 +30,9 @@ func (t *SingleTask) Execute(ctx context.Context) (interface{}, error) {
 	case <-ctx.Done():
 		return nil, ctx.Err()
 	default:
+		if t.Action == nil {
+			return nil, nil
+		}
 		return t.Action()
 	}
 }
